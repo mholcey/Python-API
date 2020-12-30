@@ -1,8 +1,4 @@
-from flask import Flask
 
-app = Flask(__name__)
-
-@app.route('/')
 def fibonacci(n):
     a = 0
     b = 1
@@ -17,4 +13,6 @@ def fibonacci(n):
             b = c
         return b
 print(fibonacci(21))
-app.run(port=5000)
+
+#if __name__ == '__main__':
+#    app.run(debug=True)
