@@ -1,29 +1,19 @@
-from flask import Flask, json, jsonify
-from flask_restful import Resource, Api
-
+from flask import Flask, request
 app = Flask(__name__)
-api = Api(app)
 
-
-def fibonacci(n):
-    a = 0
-    b = 1
-    if n <= 0:
-        print("Incorrect input")
-    elif n ==1:
-        return b
+def fibo(n: int): #Calculate the fibonacci numbers
+    if n < 1:
+        return 0
+    elif n == 1:
+        return 1
     else:
-        for i in range(2,n):
-            c = a + b
-            b = c
-            return b
-print(fibonacci(9))
+        return fibo(n-1)+fibo(n-2)
 
-class Fibonacci(Resource):
-    def get(self, number):
-        return jsonify({'fibonacci': number})
-
-api.add_resource(Fibonacci, '/fibonacci/<int:number>')
-
-if __name__ == '__main__':
-    app.run(debug = True)
+@app.route('/') #the actual route
+def send_fibo(): #tell user input must be number
+    try:
+        return str(fibo(int(request.args['n'])))
+    except ValueError:
+        return "Please use a number as the 'n' argument"
+if __name__== "__main__":
+    app.run(debug=True)
